@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>film</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+    <ion-toolbar>
+        <ion-searchbar
+        
+        [(ngModel)]="searchString"
+        (ionChange)="getMoviesSearch()">
+
+        </ion-searchbar>
+      </ion-toolbar>
+
+      <ul>
+        <li *ngFor="let movie of movieSearch">
+          {{ movie.Title }}
+        </li>
+      </ul>
+      
+
+</ion-content>
