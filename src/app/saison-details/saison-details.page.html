@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>saisonDetails</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding *ngIf="saisonSearchById" >
+
+    {{saisonSearchById.Title}}
+
+   
+
+    <ul>
+        <li *ngFor="let episode of saisonSearchById.Episodes" (click)="clickItem(id,seasonNumber,episode.Episode)">
+          {{ episode.Title }}
+          {{ episode.Released }}
+          {{ episode.Episode }}
+        </li>
+        
+      </ul>
+
+</ion-content>

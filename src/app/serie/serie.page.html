@@ -1,9 +1,48 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>serie</ion-title>
+    <button ion-button (click)="hide()" slot ="secondary"><ion-icon name="search"></ion-icon></button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+
+    <div *ngIf="hideToolbar">
+    <ion-toolbar>
+        <ion-searchbar
+        
+        [(ngModel)]="searchString"
+        (ionChange)="getInfoSeries()">
+
+        </ion-searchbar>
+      </ion-toolbar>
+    </div>
+
+      <ul *ngIf="hasSerie && allPageInfoSeries" >
+          <li *ngFor="let serie of allPageInfoSeries" (click)="clickItem(serie.imdbID)">
+            {{ serie.Title }}
+            {{ serie.Type }}
+            {{ serie.Year }}
+  
+            <div *ngIf="serie.Poster == 'N/A', else elseBlockPosterImg">
+              <p>Aucun poster</p>
+            </div>
+            <ng-template #elseBlockPosterImg>
+                <img src={{serie.Poster}} alt={{serie.Title}}>
+            </ng-template>
+          </li>
+
+          <div *ngIf="serieNotFound">
+              <p>Série introuvable</p>
+            </div>
+          
+        </ul>
+
+        <ion-infinite-scroll *ngIf="nbPage <= 100" (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content
+              loadingSpinner="bubbles"
+              loadingText="Chargement des autres series">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
 
 </ion-content>

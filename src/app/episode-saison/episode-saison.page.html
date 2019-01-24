@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>episodeSaison</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <div *ngIf="episodeSearchById">
+
+
+      Titre de l’épisode : {{ episodeSearchById.Title }}<br>
+      Date de sortie de l’épisode : {{ episodeSearchById.Released }}<br>
+      Durée de l’épisode : {{ episodeSearchById.Runtime }}<br>
+      Description de l’épisode : {{ episodeSearchById.Plot }}<br>
+      Note IMDb : {{ episodeSearchById.imdbRating }}<br>
+      Nombre de votes IMDb : {{ episodeSearchById.imdbVotes }}
+
+    </div>
+    
+</ion-content>

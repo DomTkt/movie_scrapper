@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>details</ion-title>
+  </ion-toolbar>
+  <ion-buttons end>
+      <button ion-button incon-only style="font-size: 1.7em" (click)=toggleFavorite()>
+        <ion-icon [name]="isFavorite ? 'star':'star-outline'"></ion-icon>
+      </button>
+    </ion-buttons>
+</ion-header>
+
+<ion-content padding>
+
+    <div *ngIf="(!serieSearchById || serieSearchById.Poster == 'N/A'), else elseBlockPosterImg ">
+      <p>Aucun poster</p>
+    </div>
+    <ng-template #elseBlockPosterImg>
+        <img src={{serieSearchById.Poster}} alt={{serieSearchById.Title}}>
+    </ng-template>
+          <div *ngIf="serieSearchById">
+          
+          {{ serieSearchById.Title }}
+          {{ serieSearchById.Year }}
+          {{ serieSearchById.Rated }}
+          {{ serieSearchById.Released }}
+          {{ serieSearchById.Runtime }}
+          {{ serieSearchById.Genre }}
+
+          {{ serieSearchById.Director }}
+          {{ serieSearchById.Writer }}
+          {{ serieSearchById.Actors }}
+          {{ serieSearchById.Plot }}
+          {{ serieSearchById.Language }}
+          {{ serieSearchById.Country }}
+          {{ serieSearchById.Awards }}
+        </div>
+            <li *ngFor="let seasonNumber of fakeArray" (click)="clickItem(seasonNumber)" >Saison n° {{ seasonNumber }}</li>
+</ion-content>

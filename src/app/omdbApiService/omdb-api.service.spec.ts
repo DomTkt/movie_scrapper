@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MovieService } from './movie.service';
+import { OmdbApiService } from './omdb-api.service';
 
-describe('MovieService', () => {
+describe('OmdbApiService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: MovieService = TestBed.get(MovieService);
+    const service: OmdbApiService = TestBed.get(OmdbApiService);
     expect(service).toBeTruthy();
   });
 });

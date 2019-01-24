@@ -1,3 +1,4 @@
+import { FavoritePage } from './../favorite/favorite.page';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -23,6 +24,15 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: '../serie/serie.module#SeriePageModule'
+          }
+        ]
+      },
+      {
+        path: 'favorite',
+        children: [
+          {
+            path: '',
+            loadChildren: '../favorite/favorite.module#FavoritePageModule'
           }
         ]
       },

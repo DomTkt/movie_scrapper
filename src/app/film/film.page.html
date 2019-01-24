@@ -1,25 +1,47 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>film</ion-title>
+    <button ion-button (click)="hide()" slot ="secondary"><ion-icon name="search"></ion-icon></button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding >
 
+    <div *ngIf="hideToolbar">
     <ion-toolbar>
         <ion-searchbar
         
         [(ngModel)]="searchString"
-        (ionChange)="getMoviesSearch()">
+        (ionChange)="getInfoMovies()">
 
         </ion-searchbar>
       </ion-toolbar>
+    </div>
 
-      <ul>
-        <li *ngFor="let movie of movieSearch">
+      <ion-list *ngIf="hasMovie && allPageInfoMovies">
+        <li *ngFor="let movie of allPageInfoMovies" (click)="clickItem(movie.imdbID)" >
           {{ movie.Title }}
+          {{ movie.Type }}
+          {{ movie.Year }}
+
+          <div *ngIf="movie.Poster == 'N/A', else elseBlockPosterImg">
+            <p>Aucun poster</p>
+          </div>
+          <ng-template #elseBlockPosterImg>
+              <img src={{movie.Poster}} alt={{movie.Title}}>
+          </ng-template>
+
         </li>
-      </ul>
-      
+        <div *ngIf="filmNotFound">
+          <p>Film introuvable</p>
+        </div>
+      </ion-list>
+
+      <ion-infinite-scroll *ngIf="nbPage <= 100" (ionInfinite)="loadData($event)">
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Chargement des autres films">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
 
 </ion-content>
