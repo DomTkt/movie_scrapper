@@ -2,6 +2,11 @@
   <ion-toolbar>
     <ion-title>episodeSaison</ion-title>
   </ion-toolbar>
+  <ion-buttons end>
+      <button ion-button incon-only style="font-size: 1.7em" (click)=toggleFavorite()>
+        <ion-icon [name]="isFavorite ? 'star':'star-outline'"></ion-icon>
+      </button>
+    </ion-buttons>
 </ion-header>
 
 <ion-content padding>

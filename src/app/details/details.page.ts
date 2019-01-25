@@ -1,3 +1,5 @@
+import { NavController, NavParams } from '@ionic/angular';
+import { FavoriteService } from './../favoriteService/favorite.service';
 import { OmdbApiService } from './../omdbApiService/omdb-api.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,12 +11,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class DetailsPage implements OnInit {
 
-  public serieSearchById: any;
-  id: string;
+   mediaSearchById: any;
+   id: string;
    fakeArray: number[] = []; 
    isFavorite: boolean = false;
 
-  constructor(private route: ActivatedRoute, private omdbService : OmdbApiService, private router : Router) {
+  constructor(private route: ActivatedRoute, private omdbService : OmdbApiService, private router : Router, private favoriteService: FavoriteService) {
     
    console.log("constructor");
   }
@@ -23,9 +25,10 @@ export class DetailsPage implements OnInit {
     console.log('getSeriesSearchById');
     this.omdbService.searchSerieById(this.id)
     .subscribe(data => {
-      this.serieSearchById = data;
-      console.log(this.serieSearchById.totalSeasons)
-      for (let i = 0; i < this.serieSearchById.totalSeasons; i++) {
+      this.fakeArray = []
+      this.mediaSearchById = data;
+      console.log(this.mediaSearchById.totalSeasons)
+      for (let i = 0; i < this.mediaSearchById.totalSeasons; i++) {
         this.fakeArray.push(i+1);
       }
       console.log(this.fakeArray.length)
@@ -35,7 +38,7 @@ export class DetailsPage implements OnInit {
   getMoviesSearchById() {
     this.omdbService.searchMovieById(this.id)
     .subscribe(data => {
-      this.serieSearchById = data;
+      this.mediaSearchById = data;
     });
   }
 
@@ -51,16 +54,18 @@ export class DetailsPage implements OnInit {
     this.getSeriesSearchById();
   }
 
-  toggleFavorite() {
-    if (this.isFavorite) {
-      this.isFavorite = false;
-    } else {
-      this.isFavorite = true;
-      // TODO persist data
-    }
+  ionViewDidEnter(){
+    this.favoriteService
+    .isFavortieMedia(this.mediaSearchById)
+    .then(value => (this.isFavorite = value));
   }
 
+  toggleFavorite(): void {
+    this.isFavorite = !this.isFavorite;
+    this.favoriteService.toogleFavoriteMedia(this.mediaSearchById);
+  }
   ngOnInit() {
 
   }
+
 }

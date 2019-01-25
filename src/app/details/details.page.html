@@ -11,28 +11,28 @@
 
 <ion-content padding>
 
-    <div *ngIf="(!serieSearchById || serieSearchById.Poster == 'N/A'), else elseBlockPosterImg ">
+    <div *ngIf="(!mediaSearchById || mediaSearchById.Poster == 'N/A'), else elseBlockPosterImg ">
       <p>Aucun poster</p>
     </div>
     <ng-template #elseBlockPosterImg>
-        <img src={{serieSearchById.Poster}} alt={{serieSearchById.Title}}>
+        <img src={{mediaSearchById.Poster}} alt={{mediaSearchById.Title}}>
     </ng-template>
-          <div *ngIf="serieSearchById">
+          <div *ngIf="mediaSearchById">
           
-          {{ serieSearchById.Title }}
-          {{ serieSearchById.Year }}
-          {{ serieSearchById.Rated }}
-          {{ serieSearchById.Released }}
-          {{ serieSearchById.Runtime }}
-          {{ serieSearchById.Genre }}
+          {{ mediaSearchById.Title }}
+          {{ mediaSearchById.Year }}
+          {{ mediaSearchById.Rated }}
+          {{ mediaSearchById.Released }}
+          {{ mediaSearchById.Runtime }}
+          {{ mediaSearchById.Genre }}
 
-          {{ serieSearchById.Director }}
-          {{ serieSearchById.Writer }}
-          {{ serieSearchById.Actors }}
-          {{ serieSearchById.Plot }}
-          {{ serieSearchById.Language }}
-          {{ serieSearchById.Country }}
-          {{ serieSearchById.Awards }}
+          {{ mediaSearchById.Director }}
+          {{ mediaSearchById.Writer }}
+          {{ mediaSearchById.Actors }}
+          {{ mediaSearchById.Plot }}
+          {{ mediaSearchById.Language }}
+          {{ mediaSearchById.Country }}
+          {{ mediaSearchById.Awards }}
         </div>
             <li *ngFor="let seasonNumber of fakeArray" (click)="clickItem(seasonNumber)" >Saison n° {{ seasonNumber }}</li>
 </ion-content>

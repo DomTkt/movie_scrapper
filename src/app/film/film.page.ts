@@ -12,8 +12,8 @@ import { NavController, IonInfiniteScroll } from '@ionic/angular';
 })
 export class FilmPage implements OnInit {
 
-  public hideToolbar : boolean;
-  public nbPage : number = 1;
+  hideToolbar : boolean = true;
+  nbPage : number = 1;
 
   infoMoviesDefault: any;
   allPageInfoMovies = [];

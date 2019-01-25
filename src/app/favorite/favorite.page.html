@@ -1,9 +1,46 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>favorite</ion-title>
-  </ion-toolbar>
-</ion-header>
+<br /><!-- Header ne change pas -->
+ 
+<ion-content>
+ 
+    <ion-card *ngIf="favoriteMedias && favoriteMedias.length; else noFavorite">
+      <ion-list>
+        <ion-list-header class="my-movies-header">Favorite Medias</ion-list-header>
+        <ion-item *ngFor="let media of favoriteMedias" (click)="goToDetail(media)">
+          <ion-row>
+            <ion-col col-1>
+              <ion-icon name="star"></ion-icon>
+            </ion-col>
+            <ion-col col-6 text-wrap>
+              <h4>{{media.Title}}</h4>
+            </ion-col>
+            <ion-col col-3>
+              <h4>{{media.Release}}</h4>
+            </ion-col>
+            <ion-col col-2>
+              <ion-badge color="primary">{{media.imdbVotes}}</ion-badge>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+ 
+    <ng-template #noFavorite>
+      <ion-card>
+      </ion-card>
+    </ng-template>
 
-<ion-content padding>
+    
+    <ion-refresher slot="fixed" 
+    (ionRefresh)="ionRefresh($event)" 
+    (ionPull)="ionPull()" 
+    (ionStart)="ionStart()">
+      <ion-refresher-content
+        pullingIcon="arrow-dropdown"
+        pullingText="Pull to refresh"
+        refreshingSpinner="circles"
+        refreshingText="Refreshing...">
+      </ion-refresher-content>
+    </ion-refresher>
 
-</ion-content>
+ 
+  </ion-content>

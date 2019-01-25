@@ -13,7 +13,7 @@ export class SeriePage implements OnInit {
 
   public serieSearch: any;
   public itemIdClick : string;
-  public hideToolbar : boolean;
+  hideToolbar : boolean = true;
   detailPage : DetailsPage
 
   public searchString : string;
