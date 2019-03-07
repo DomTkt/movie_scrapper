@@ -1,3 +1,4 @@
+import { MediaId } from './../../models/mediaId';
 import { NavController, NavParams } from '@ionic/angular';
 import { FavoriteService } from './../favoriteService/favorite.service';
 import { OmdbApiService } from './../omdbApiService/omdb-api.service';
@@ -11,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class DetailsPage {
 
-   mediaSearchById: any;
+   mediaSearchById: MediaId;
    id: string;
    fakeArray: number[] = [];
    isFavorite: boolean = false;
@@ -21,18 +22,18 @@ export class DetailsPage {
   }
 
   getSeriesSearchById() {
-    this.omdbService.searchSerieById(this.id)
+    this.omdbService.searchMediaById(this.id)
     .subscribe(data => {
       this.fakeArray = []
       this.mediaSearchById = data;
-      for (let i = 0; i < this.mediaSearchById.totalSeasons; i++) {
+      for (let i = 0; i < Number(this.mediaSearchById.totalSeasons); i++) {
         this.fakeArray.push(i+1);
       }
     })
   }
 
   getMoviesSearchById() {
-    this.omdbService.searchMovieById(this.id)
+    this.omdbService.searchMediaById(this.id)
     .subscribe(data => {
       this.mediaSearchById = data;
     });

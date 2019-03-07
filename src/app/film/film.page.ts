@@ -35,6 +35,7 @@ export class FilmPage implements OnInit {
 async getInfoMovies() {
   this.omdbService.searchMovie(this.searchString, this.nbPage)
     .subscribe(res => {
+      console.log(res)
       if (this.searchString == undefined){
         this.hasMovie = false;
       } else {

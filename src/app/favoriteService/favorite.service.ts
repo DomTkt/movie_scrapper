@@ -1,49 +1,50 @@
+import { MediaId } from './../../models/mediaId';
+import { FavoriteMedia } from './../../models/favoriteMedia';
 import { Injectable } from "@angular/core";
 import { Storage } from "@ionic/storage";
  
-const MOVIE_KEY = "movie_";
+const MEDIA_KEY = "media_";
  
 @Injectable({
   providedIn : 'root'
 })
 export class FavoriteService {
   constructor(private storage: Storage) {
-    
   }
  
-  addFavoriteMedia(movie: any) {
-    this.storage.set(this.getMediaKey(movie), JSON.stringify(movie));
+  addFavoriteMedia(media: MediaId) {
+    this.storage.set(this.getMediaKey(media), JSON.stringify(media));
   }
  
-  removeFavoriteMedia(movie: any) {
-    this.storage.remove(this.getMediaKey(movie));
+  removeFavoriteMedia(media: MediaId) {
+    this.storage.remove(this.getMediaKey(media));
   }
  
-  isFavortieMedia(movie: any) {
-    return this.storage.get(this.getMediaKey(movie));
+  isFavortieMedia(media: any) {
+    return this.storage.get(this.getMediaKey(media));
   }
  
-  toogleFavoriteMedia(movie: any) {
-    this.isFavortieMedia(movie).then(
+  toogleFavoriteMedia(media: any) {
+    this.isFavortieMedia(media).then(
       isFavorite =>
         isFavorite
-          ? this.removeFavoriteMedia(movie)
-          : this.addFavoriteMedia(movie)
+          ? this.removeFavoriteMedia(media)
+          : this.addFavoriteMedia(media)
     );
   }
  
-  getMediaKey(movie: any) {
-    return MOVIE_KEY + movie.imdbID;
+  getMediaKey(media: MediaId) {
+    return MEDIA_KEY + media.imdbID;
   }
  
-  getFavoriteMedias(): Promise<any[]> {
+  getFavoriteMedias(): Promise<MediaId[]> {
     return new Promise(resolve => {
-      let results: any[] = [];
+      let results: MediaId[] = [];
       this.storage
         .keys()
         .then(keys =>
           keys
-            .filter(key => key.includes(MOVIE_KEY))
+            .filter(key => key.includes(MEDIA_KEY))
             .forEach(key =>
               this.storage.get(key).then(data => results.push(JSON.parse(data)))
             )

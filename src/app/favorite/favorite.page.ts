@@ -1,3 +1,4 @@
+import { MediaId } from './../../models/mediaId';
 import { Platform, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { File } from '@ionic-native/file/ngx'
@@ -12,11 +13,13 @@ import { FileChooser } from '@ionic-native/file-chooser/ngx';
 })
 export class FavoritePage {
 
-  favoriteMedias: any[] = [];
+  favoriteMedias: Array<MediaId>
   id: string;
 
   constructor(
-    private favoriteService: FavoriteService, private router: Router, private file: File, private platform: Platform, private fileChooser: FileChooser, private alertController: AlertController) { }
+    private favoriteService: FavoriteService, private router: Router, private file: File, private platform: Platform, private fileChooser: FileChooser, private alertController: AlertController) { 
+        this.favoriteMedias = new Array<MediaId>()
+    }
 
 
   ionViewWillEnter() {
@@ -30,7 +33,7 @@ export class FavoritePage {
       .then(favs => (this.favoriteMedias = favs));
   }
 
-  goToDetail(media: any) {
+  goToDetail(media: MediaId) {
     this.id = media.imdbID;
     this.router.navigateByUrl('/details/' + this.id)
   }

@@ -34,7 +34,7 @@ export class SeriePage implements OnInit {
   async getInfoSeries() {
     this.omdbService.searchSerie(this.searchString)
       .subscribe(res => {
-        console.log(res)
+        
         if (this.searchString == undefined || this.searchString == "") {
           this.hasSerie = false;
         } else {

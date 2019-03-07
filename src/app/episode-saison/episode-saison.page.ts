@@ -1,3 +1,4 @@
+import { EpisodeDetails } from './../../models/episodeDetails';
 import { FavoriteService } from './../favoriteService/favorite.service';
 import { OmdbApiService } from './../omdbApiService/omdb-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EpisodeSaisonPage{
 
-  episodeSearchById : any
+  episodeSearchById : EpisodeDetails
   id: string;
   seasonNumber : string;
   episodeNumber : string;

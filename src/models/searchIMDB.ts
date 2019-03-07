@@ -1,3 +1,5 @@
+import { TypeMedia } from "./typeMedia";
+
 export interface SearchIMDB {
     Search:       Search[];
     totalResults: string;
@@ -10,8 +12,4 @@ export interface Search {
     imdbID: string;
     Type:   TypeMedia;
     Poster: string;
-}
-
-export enum TypeMedia {
-    Movie = "movie", Serie ="series"
 }

@@ -1,3 +1,4 @@
+import { SaisonDetails } from './../../models/saisonDetails';
 import { OmdbApiService } from './../omdbApiService/omdb-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SaisonDetailsPage implements OnInit {
 
-  saisonSearchById: any;
+  saisonSearchById: SaisonDetails;
   id: string;
   seasonNumber : string;
 

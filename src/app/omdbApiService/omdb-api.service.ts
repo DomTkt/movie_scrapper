@@ -1,9 +1,13 @@
-import { TypeMedia, SearchIMDB } from './../../models/searchIMDB';
+import { SaisonDetails } from './../../models/saisonDetails';
+import { MediaId } from './../../models/mediaId';
+import { SearchIMDB } from './../../models/searchIMDB';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Type } from '@angular/compiler/src/core';
+import { TypeMedia } from 'src/models/typeMedia';
+import { EpisodeDetails } from 'src/models/episodeDetails';
 
 @Injectable({
   providedIn: 'root'
@@ -33,43 +37,28 @@ export class OmdbApiService {
 
   searchMovie(search: string, nbPage : Number) : Observable<SearchIMDB>{
             return this.http.get(this.baseUrl + "?apikey=" + this.apiKey + "&" + 's=' + search + '&type='+ TypeMedia.Movie + '&page=' + nbPage)
-            .pipe(map((searchFilm: SearchIMDB) => searchFilm), catchError(this.handleError));
+            .pipe(map((searchMovie: SearchIMDB) => searchMovie), catchError(this.handleError));
             
 }
 
-searchSerie(search: string) : Observable<any> {
+searchSerie(search: string) : Observable<SearchIMDB> {
     return this.http.get(this.baseUrl + "?apikey=" + this.apiKey + "&" + 's=' + search + '&type='+ TypeMedia.Serie)
-    .pipe(
-    map(this.extractData),
-    catchError(this.handleError));
+    .pipe(map((searchSerie: SearchIMDB) => searchSerie), catchError(this.handleError));
 }
 
-searchSerieById(id: string) : Observable<any> {
-    return this.http.get(this.baseUrl + "?apikey=" + this.apiKey + "&" + 'i=' + id + '&type=series')
-    .pipe(
-    map(this.extractData),
-    catchError(this.handleError));
+searchMediaById(id: string) : Observable<MediaId> {
+    return this.http.get(this.baseUrl + "?apikey=" + this.apiKey + "&" + 'i=' + id)
+    .pipe(map((searchMediaId: MediaId) => searchMediaId), catchError(this.handleError));
 }
 
-searchMovieById(id: string) : Observable<any> {
-    return this.http.get(this.baseUrl + "?apikey=" + this.apiKey + "&" + 'i=' + id + '&type=movie')
-    .pipe(
-    map(this.extractData),
-    catchError(this.handleError));
+searchSaisonById(id : string, seasonNumber : string): Observable<SaisonDetails> {
+    return this.http.get(this.baseUrl + "?apikey=" + this.apiKey + "&" + 'i=' + id + '&type='+ TypeMedia.Serie + "&Season=" + seasonNumber)
+    .pipe(map((saisonDetails: SaisonDetails) => saisonDetails), catchError(this.handleError));
 }
 
-searchSaisonById(id : string, seasonNumber : string): Observable<any> {
-    return this.http.get(this.baseUrl + "?apikey=" + this.apiKey + "&" + 'i=' + id + '&type=series' + "&Season=" + seasonNumber)
-    .pipe(
-    map(this.extractData),
-    catchError(this.handleError));
-}
-
-searchEpisodeSaisonById(id : string, seasonNumber : string, episodeNumber : string) : Observable<any>{
-    return this.http.get(this.baseUrl + "?apikey=" + this.apiKey + "&" + 'i=' + id + '&type=series' + "&Season=" + seasonNumber + "&Episode=" + episodeNumber)
-    .pipe(
-    map(this.extractData),
-    catchError(this.handleError));
+searchEpisodeSaisonById(id : string, seasonNumber : string, episodeNumber : string) : Observable<EpisodeDetails>{
+    return this.http.get(this.baseUrl + "?apikey=" + this.apiKey + "&" + 'i=' + id + '&type='+ TypeMedia.Serie + "&Season=" + seasonNumber + "&Episode=" + episodeNumber)
+    .pipe(map((episodeDetails: EpisodeDetails) => episodeDetails), catchError(this.handleError));
   }
 
 }
