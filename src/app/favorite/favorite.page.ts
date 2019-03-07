@@ -1,3 +1,4 @@
+import { FavoriteMedia } from './../../models/favoriteMedia';
 import { MediaId } from './../../models/mediaId';
 import { Platform, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -13,13 +14,12 @@ import { FileChooser } from '@ionic-native/file-chooser/ngx';
 })
 export class FavoritePage {
 
-  favoriteMedias: Array<MediaId>
+  favoriteMedias: MediaId[] = [];
+  favoriteMediasCSVTab : FavoriteMedia[] = [];
   id: string;
 
   constructor(
-    private favoriteService: FavoriteService, private router: Router, private file: File, private platform: Platform, private fileChooser: FileChooser, private alertController: AlertController) { 
-        this.favoriteMedias = new Array<MediaId>()
-    }
+    private favoriteService: FavoriteService, private router: Router, private file: File, private platform: Platform, private fileChooser: FileChooser, private alertController: AlertController) { }
 
 
   ionViewWillEnter() {
@@ -33,20 +33,58 @@ export class FavoritePage {
       .then(favs => (this.favoriteMedias = favs));
   }
 
-  goToDetail(media: MediaId) {
+  goToDetail(media: any) {
     this.id = media.imdbID;
     this.router.navigateByUrl('/details/' + this.id)
   }
 
   writeJsonInFile() {
     if (this.platform.is("android")) {
-      alert("Your favorites are exports in files favorites.json in your app folder")
-      this.file.writeFile(this.file.externalDataDirectory, 'favorites.json', JSON.stringify(this.favoriteMedias), { replace: true });
+      alert('Your favorites are exports in files favorites' +  Date.now().toString()+ '.json in your app folder')
+      this.file.writeFile(this.file.externalDataDirectory, 'favorites'+Date.now().toString()+'.json', JSON.stringify(this.favoriteMedias), { replace: true });
     }
     else {
       alert("Connect a mobile device Android to export your favorite")
     }
   }
+
+  writeCSVInFile() {
+
+    for(let i = 0 ; i < this.favoriteMedias.length ; i++){
+      let favoriteMediaCSV = new FavoriteMedia(this.favoriteMedias[i].Title, this.favoriteMedias[i].Released, this.favoriteMedias[i].imdbVotes)
+      this.favoriteMediasCSVTab.push(favoriteMediaCSV)
+    }
+
+    if (this.platform.is("android")) {
+      alert('Your favorites are exports in files favorites' +  Date.now().toString()+ '.csv in your app folder')
+      this.file.writeFile(this.file.externalDataDirectory, 'favorites'+Date.now().toString()+'.csv', this.convertObjectToCSV(this.favoriteMediasCSVTab), { replace: true });
+    }
+    else {
+      alert("Connect a mobile device Android to export your favorite")
+    }
+  }
+
+  convertObjectToCSV(objArray) {    
+    let array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    let str = '';
+    let row = ""; 
+    for (let index in objArray[0]) {
+        row += index + ',';
+    }
+    row = row.slice(0, -1);
+    str += row + '\r\n';
+
+    for (let i = 0; i < array.length; i++) {
+        let line = '';
+        for (let index in array[i]) {
+            if (line != '') line += ',';
+            line += array[i][index];
+        }
+        str += line + '\r\n';
+    }
+    return str;
+}
+
 
 
   readJsonFromFile() {
