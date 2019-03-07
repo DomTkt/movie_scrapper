@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SaisonDetailsPage implements OnInit {
 
-  public saisonSearchById: any;
+  saisonSearchById: any;
   id: string;
   seasonNumber : string;
 
@@ -30,14 +30,11 @@ export class SaisonDetailsPage implements OnInit {
 
   ionViewWillEnter(): void{
     this.id = this.route.snapshot.paramMap.get('id');
-    console.log("idTest = " + this.id)
     this.seasonNumber = this.route.snapshot.paramMap.get('numberSeason');
-    console.log("saison = " + this.route.snapshot.paramMap.get('numberSeason'))
     this.getSaisonSearchById();
   }
 
     clickItem(id : Number, saisonNumber : Number, episodeNumber : Number ){
-    console.log(id)
     this.router.navigateByUrl('/episode-saison/'+id+"/"+saisonNumber+"/"+episodeNumber)
   }
 

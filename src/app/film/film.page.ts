@@ -1,3 +1,6 @@
+
+import { SearchIMDB, Search } from './../../models/searchIMDB';
+
 import { Router } from '@angular/router';
 import { OmdbApiService } from './../omdbApiService/omdb-api.service';
 
@@ -15,8 +18,8 @@ export class FilmPage implements OnInit {
   hideToolbar : boolean = true;
   nbPage : number = 1;
 
-  infoMoviesDefault: any;
-  allPageInfoMovies = [];
+  infoMoviesDefault: SearchIMDB;
+  allPageInfoMovies: Array<Search>;
   searchString: string;
   lastSearchTitle: String = "";
   hasMovie: boolean;
@@ -25,22 +28,13 @@ export class FilmPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   constructor(private omdbService : OmdbApiService, private router: Router) {
-    this.getInfoMovies()
+    this.allPageInfoMovies = new Array<Search>();
+    this.getInfoMovies();
   }
-
-  /*getMoviesSearch() {
-    console.log(this.searchString)
-    this.omdbService.searchMovie(this.searchString, this.nbPage)
-    .then(data => {
-      this.infoMoviesDefault = data;
-    });
-  }*/
 
 async getInfoMovies() {
   this.omdbService.searchMovie(this.searchString, this.nbPage)
     .subscribe(res => {
-      console.log(res);
-
       if (this.searchString == undefined){
         this.hasMovie = false;
       } else {
@@ -50,20 +44,20 @@ async getInfoMovies() {
       if(res.Response == "False")
         {
           this.filmNotFound = true;
-          this.allPageInfoMovies = [];
+          this.allPageInfoMovies = new Array<Search>();
         }
         else{
 
           this.filmNotFound = false;
 
-      this.infoMoviesDefault = res.Search;
+      this.infoMoviesDefault = res;
 
       if (this.lastSearchTitle != this.searchString){
         this.allPageInfoMovies = [];
       }
-      for(let i=0; i<this.infoMoviesDefault.length; i++)
+      for(let i=0; i<this.infoMoviesDefault.Search.length; i++)
         {
-          this.allPageInfoMovies.push(this.infoMoviesDefault[i]);
+          this.allPageInfoMovies.push(this.infoMoviesDefault.Search[i]);
         }
       }
       this.lastSearchTitle = this.searchString
@@ -74,7 +68,6 @@ async getInfoMovies() {
 }
 
   clickItem(id : Number){
-    console.log(id)
     this.router.navigateByUrl('/details/'+id)
   }
 
@@ -86,13 +79,10 @@ async getInfoMovies() {
   }
 
   loadData(infiniteScroll){
-    //console.log('Begin async operation');
 
     setTimeout(async() => {
       this.nbPage++;
       this.getInfoMovies();
-
-      //console.log('Async operation has ended');
       infiniteScroll.target.complete();
     }, 500);
   }

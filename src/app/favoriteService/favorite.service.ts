@@ -8,7 +8,7 @@ const MOVIE_KEY = "movie_";
 })
 export class FavoriteService {
   constructor(private storage: Storage) {
-    console.log("Hello UserPreferencesProvider Provider");
+    
   }
  
   addFavoriteMedia(movie: any) {

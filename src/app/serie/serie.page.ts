@@ -1,3 +1,4 @@
+import { SearchIMDB, Search } from './../../models/searchIMDB';
 import { DetailsPage } from './../details/details.page';
 import { NavController, IonInfiniteScroll } from '@ionic/angular';
 import { OmdbApiService } from './../omdbApiService/omdb-api.service';
@@ -11,92 +12,76 @@ import { Router } from '@angular/router';
 })
 export class SeriePage implements OnInit {
 
-  public serieSearch: any;
-  public itemIdClick : string;
-  hideToolbar : boolean = true;
-  detailPage : DetailsPage
+  itemIdClick: string;
+  hideToolbar: boolean = true;
+  detailPage: DetailsPage
 
-  public searchString : string;
+  searchString: string;
 
-  public nbPage : number = 1;
-  infoSeriesDefault: any;
-  allPageInfoSeries = [];
+  nbPage: number = 1;
+  infoSeriesDefault: SearchIMDB;
+  allPageInfoSeries: Array<Search>;
   lastSearchTitle: String = "";
   hasSerie: boolean;
-  serieNotFound : boolean;
+  serieNotFound: boolean;
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
-  constructor(private omdbService : OmdbApiService, private router: Router) {
+  constructor(private omdbService: OmdbApiService, private router: Router) {
     this.getInfoSeries()
   }
-
-  /*getSeriesSearch() {
-    console.log(this.searchString)
-    this.omdbService.searchSerie(this.searchString)
-    .then(data => {
-      this.serieSearch = data;
-    });
-  }*/
 
   async getInfoSeries() {
     this.omdbService.searchSerie(this.searchString)
       .subscribe(res => {
-        console.log(res);
-  
-        if (this.searchString == undefined || this.searchString == ""){
+        console.log(res)
+        if (this.searchString == undefined || this.searchString == "") {
           this.hasSerie = false;
         } else {
           this.hasSerie = true;
         }
-  
-        if(res.Response == "False")
-          {
-            this.serieNotFound = true;
-            this.allPageInfoSeries = [];
-          }
-          else{
-  
-            this.serieNotFound = false;
-  
-        this.infoSeriesDefault = res.Search;
-  
-        if (this.lastSearchTitle != this.searchString){
-          this.allPageInfoSeries = [];
+
+        if (res.Response == "False") {
+          this.serieNotFound = true;
+          this.allPageInfoSeries = new Array<Search>();
         }
-        for(let i=0; i<this.infoSeriesDefault.length; i++)
-          {
-            this.allPageInfoSeries.push(this.infoSeriesDefault[i]);
+        else {
+
+          this.serieNotFound = false;
+
+          this.infoSeriesDefault = res;
+
+          if (this.lastSearchTitle != this.searchString) {
+            this.allPageInfoSeries = new Array<Search>();
+          }
+          for (let i = 0; i < this.infoSeriesDefault.Search.length; i++) {
+            this.allPageInfoSeries.push(this.infoSeriesDefault.Search[i]);
           }
         }
         this.lastSearchTitle = this.searchString
       }, err => {
         console.log(err);
       });
-    
+
   }
 
-  clickItem(id : Number){
-    console.log(id)
-    this.router.navigateByUrl('/details/'+id)
+  clickItem(id: Number) {
+    this.router.navigateByUrl('/details/' + id)
   }
 
-  hide(){
+  hide() {
     this.hideToolbar = !this.hideToolbar;
-}
+  }
 
   ngOnInit() {
-    
+
   }
 
-  loadData(infiniteScroll){
-    //console.log('Begin async operation');
+  loadData(infiniteScroll) {
 
-    setTimeout(async() => {
+    setTimeout(async () => {
       this.nbPage++;
       this.getInfoSeries();
-
-      //console.log('Async operation has ended');
       infiniteScroll.target.complete();
     }, 500);
   }

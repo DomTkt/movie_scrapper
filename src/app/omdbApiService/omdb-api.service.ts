@@ -1,7 +1,9 @@
+import { TypeMedia, SearchIMDB } from './../../models/searchIMDB';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
+import { Type } from '@angular/compiler/src/core';
 
 @Injectable({
   providedIn: 'root'
@@ -29,15 +31,14 @@ export class OmdbApiService {
     return throwError('Something bad happened; please try again later.');
   }
 
-  searchMovie(search: string, nbPage : Number) : Observable<any>{
-            return this.http.get(this.baseUrl + "?apikey=" + this.apiKey + "&" + 's=' + search + '&type=movie'+ '&page=' + nbPage)
-            .pipe(
-            map(this.extractData),
-            catchError(this.handleError));
+  searchMovie(search: string, nbPage : Number) : Observable<SearchIMDB>{
+            return this.http.get(this.baseUrl + "?apikey=" + this.apiKey + "&" + 's=' + search + '&type='+ TypeMedia.Movie + '&page=' + nbPage)
+            .pipe(map((searchFilm: SearchIMDB) => searchFilm), catchError(this.handleError));
+            
 }
 
 searchSerie(search: string) : Observable<any> {
-    return this.http.get(this.baseUrl + "?apikey=" + this.apiKey + "&" + 's=' + search + '&type=series')
+    return this.http.get(this.baseUrl + "?apikey=" + this.apiKey + "&" + 's=' + search + '&type='+ TypeMedia.Serie)
     .pipe(
     map(this.extractData),
     catchError(this.handleError));
