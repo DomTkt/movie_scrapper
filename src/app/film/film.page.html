@@ -19,19 +19,29 @@
     </div>
 
       <ion-list *ngIf="hasMovie && allPageInfoMovies">
-        <li *ngFor="let movie of allPageInfoMovies" (click)="clickItem(movie.imdbID)" >
-          {{ movie.Title }}
-          {{ movie.Type }}
-          {{ movie.Year }}
+            <ion-grid>
+                <ion-row justify-content-center align-items-center>
+            <ion-card *ngFor="let movie of allPageInfoMovies" (click)="clickItem(movie.imdbID)">
+                <ion-card-header>
+                  <ion-card-title>{{ movie.Title }}</ion-card-title>
+                  <ion-card-subtitle>Type : {{ movie.Type }}</ion-card-subtitle>
+                  <ion-card-subtitle>Année : {{ movie.Year }}</ion-card-subtitle>
+                  
+                </ion-card-header>
+              
+                <ion-card-content>
 
-          <div *ngIf="movie.Poster == 'N/A', else elseBlockPosterImg">
-            <p>Aucun poster</p>
-          </div>
-          <ng-template #elseBlockPosterImg>
-              <img src={{movie.Poster}} alt={{movie.Title}}>
-          </ng-template>
-
-        </li>
+                    <div *ngIf="movie.Poster == 'N/A', else elseBlockPosterImg">
+                      <p>Aucun poster</p>
+                    </div>
+                    <ng-template #elseBlockPosterImg>
+                        <img src={{movie.Poster}} alt={{movie.Title}} >
+                    </ng-template>
+                </ion-card-content>
+              </ion-card>
+            </ion-row>
+          </ion-grid>
+          
         <div *ngIf="filmNotFound">
           <p>Film introuvable</p>
         </div>

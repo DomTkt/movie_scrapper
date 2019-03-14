@@ -10,29 +10,43 @@
 </ion-header>
 
 <ion-content padding>
-
-    <div *ngIf="(!mediaSearchById || mediaSearchById.Poster == 'N/A'), else elseBlockPosterImg ">
-      <p>Aucun poster</p>
-    </div>
-    <ng-template #elseBlockPosterImg>
-        <img src={{mediaSearchById.Poster}} alt={{mediaSearchById.Title}}>
-    </ng-template>
           <div *ngIf="mediaSearchById">
-          
-          {{ mediaSearchById.Title }}
-          {{ mediaSearchById.Year }}
-          {{ mediaSearchById.Rated }}
-          {{ mediaSearchById.Released }}
-          {{ mediaSearchById.Runtime }}
-          {{ mediaSearchById.Genre }}
+              <ion-grid>
+                  <ion-row justify-content-center align-items-center>
+              <ion-card>
+                  <ion-card-header>
+                    <ion-card-title>{{ mediaSearchById.Title }}</ion-card-title>
+                    <ion-card-subtitle>Genre : {{ mediaSearchById.Genre }} </ion-card-subtitle>
+                    <ion-card-subtitle> Année : {{ mediaSearchById.Year }} </ion-card-subtitle>
+                  </ion-card-header>
+                
+                  <ion-card-content>
 
-          {{ mediaSearchById.Director }}
-          {{ mediaSearchById.Writer }}
-          {{ mediaSearchById.Actors }}
-          {{ mediaSearchById.Plot }}
-          {{ mediaSearchById.Language }}
-          {{ mediaSearchById.Country }}
-          {{ mediaSearchById.Awards }}
+                      <div *ngIf="(!mediaSearchById || mediaSearchById.Poster == 'N/A'), else elseBlockPosterImg ">
+                        <p>Aucun poster</p>
+                      </div>
+                      <ng-template #elseBlockPosterImg>
+                          <img src={{mediaSearchById.Poster}} alt={{mediaSearchById.Title}}>
+                      </ng-template>
+                      <p>Note : {{ mediaSearchById.Rated }} </p>
+                      <p>Mise en vente : {{ mediaSearchById.Released }} </p>
+                      <p>Durée : {{ mediaSearchById.Runtime }} </p>
+            
+                      <p>Réalisateur : {{ mediaSearchById.Director }} </p>
+                      <p> Auteur : {{ mediaSearchById.Writer }}</p>
+                      <p> Acteur : {{ mediaSearchById.Actors }} </p>
+                      <p>Plot : {{ mediaSearchById.Plot }} </p>
+                      <p> Langue :{{ mediaSearchById.Language }} </p>
+                      <p>Pays : {{ mediaSearchById.Country }} </p>
+                      <p>Prix : {{ mediaSearchById.Awards }} </p>
+                      <ion-card>
+                          <li *ngFor="let seasonNumber of fakeArray" (click)="clickItem(seasonNumber)" >Saison n° {{ seasonNumber }}</li>
+                      </ion-card>
+                  </ion-card-content>
+                </ion-card>
+              </ion-row>
+              </ion-grid>
+
         </div>
-            <li *ngFor="let seasonNumber of fakeArray" (click)="clickItem(seasonNumber)" >Saison n° {{ seasonNumber }}</li>
+
 </ion-content>

@@ -18,25 +18,33 @@
       </ion-toolbar>
     </div>
 
-      <ul *ngIf="hasSerie && allPageInfoSeries" >
-          <li *ngFor="let serie of allPageInfoSeries" (click)="clickItem(serie.imdbID)">
-            {{ serie.Title }}
-            {{ serie.Type }}
-            {{ serie.Year }}
-  
-            <div *ngIf="serie.Poster == 'N/A', else elseBlockPosterImg">
-              <p>Aucun poster</p>
+        <ion-list *ngIf="hasSerie && allPageInfoSeries">
+                <ion-grid>
+                    <ion-row justify-content-center align-items-center>
+                <ion-card *ngFor="let serie of allPageInfoSeries" (click)="clickItem(serie.imdbID)">
+                    <ion-card-header>
+                      <ion-card-title>{{ serie.Title }}</ion-card-title>
+                      <ion-card-subtitle>Type : {{ serie.Type }}</ion-card-subtitle>
+                      <ion-card-subtitle>Année : {{ serie.Year }}</ion-card-subtitle>
+                      
+                    </ion-card-header>
+                  
+                    <ion-card-content>
+    
+                        <div *ngIf="serie.Poster == 'N/A', else elseBlockPosterImg">
+                          <p>Aucun poster</p>
+                        </div>
+                        <ng-template #elseBlockPosterImg>
+                            <img src={{serie.Poster}} alt={{serie.Title}} >
+                        </ng-template>
+                    </ion-card-content>
+                  </ion-card>
+                </ion-row>
+              </ion-grid>
+            <div *ngIf="serieNotFound">
+              <p>Film introuvable</p>
             </div>
-            <ng-template #elseBlockPosterImg>
-                <img src={{serie.Poster}} alt={{serie.Title}}>
-            </ng-template>
-          </li>
-
-          <div *ngIf="serieNotFound">
-              <p>Série introuvable</p>
-            </div>
-          
-        </ul>
+          </ion-list>
 
         <ion-infinite-scroll *ngIf="nbPage <= 100" (ionInfinite)="loadData($event)">
             <ion-infinite-scroll-content
