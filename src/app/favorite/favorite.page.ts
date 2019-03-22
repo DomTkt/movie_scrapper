@@ -193,7 +193,7 @@ CSVToArray(strData: string, strDelimiter: string) {
           console.log('Share clicked');
         }
       },{
-        text: 'Save your favorite in Json file in your device',
+        text: 'Save your favorite in CSV file in your device',
         icon: 'heart',
         handler: () => {
           this.writeCSVInFile()
